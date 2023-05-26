@@ -14,7 +14,7 @@ Structure of the Development environment:
 ## How to install
 After cloning this repository and **BEFORE** composing it up:
 
-> ⚠️ Be sure to have `docker` and `docker compose` installed. Here you have the
+> ⚠️ Be sure to have `docker` and `docker-compose` installed. Here you have the
 reference to get them installed in your system:  
 https://docs.docker.com/compose/install/
 
@@ -26,9 +26,10 @@ https://getcomposer.org/doc/00-intro.md#globally
 ```php
 composer create-project laravel/laravel ./src/
 ```
+> **If you are cloning the Laravel project from a repository**, you would need to place it into the `./src` folder, and run then some commands in the docker-compose section.
 
-**Then**, customize the database configuration within the ./src/.env. Remember to set the `DB_HOST` to the
-database docker name, in this case `db`, and customize the database name, the username and the password parameters:
+**Then**, customize the database configuration within the ./src/.env. ***Remember to set the `DB_HOST` to the
+database docker name, in this case `db`***, and customize the database name, the username and the password parameters:
 ```php
 DB_HOST=db
 DB_PORT=3306
@@ -51,11 +52,29 @@ DB_PASSWORD=<username_password>
 Then, you can just use the docker compose set of commands:
 
    - FIRST TIME: build your docker compose setup with `docker-compose up --build`
+   > Note that you would need to set-up the MARIADB root password, follow the instructions in the `db` logs, in the beginning. It is just running a command in the db docker.
+
    - Wake-up dockers: `docker-compose up -d`
    - Shutdown them: `docker-compose down`
    - Build `app`: `docker-compose build app`
    - Check status: `docker-compose ps`
    - Execute commands: `docker-compose exec app <command>`
+   
+   > If you installed the Laravel structure from a repository instead of using the `composer create-project` command, you would need to manually do some steps:
+   > -  Install composer dependencies: 
+   >
+   > ```docker-compose exec app composer install```
+   > - Then copy `.env.example` to `.env` and set the database information to allow the app to connect
+   > - Then, generate a key: `php artisan key:generate`
+   > - DB Migrations:
+   >
+   >``` php artisan migrate --seed ```
+   >
+   >or, depending of your db dev process:
+   >
+   >```php artisan migrate:fresh --seed```
+
+<br/>
 
 > 💡 Keep in mind that the database information would be within the `./src/.env` file, which parameters
 are used in the `docker-compose.yml` file in order to connect and create the database instance.
