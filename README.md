@@ -68,11 +68,11 @@ Then, you can just use the docker compose set of commands:
    > - Then, generate a key: `php artisan key:generate`
    > - DB Migrations:
    >
-   >``` php artisan migrate --seed ```
+   >```docker-compose exec app php artisan migrate --seed ```
    >
    >or, depending of your db dev process:
    >
-   >```php artisan migrate:fresh --seed```
+   >```docker-compose exec app php artisan migrate:fresh --seed```
 
 <br/>
 
